@@ -10,8 +10,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MemberTest {
 
     @Test
+    void 역할이_USER인_멤버를_생성한다() {
+        Member member = Member.ofUser("듀이", "test@test.com", "1234");
+
+        assertThat(member.getRole()).isEqualTo(Role.USER);
+    }
+
+    @Test
     void 비밀번호가_일치하지_않으면_true를_반환한다() {
-        Member member = Member.create("듀이", Role.USER, "test@test.com", "1234");
+        Member member = Member.ofUser("듀이", "test@test.com", "1234");
         String password = "pass";
 
         assertThat(member.isIncorrectPassword(password)).isTrue();
@@ -19,7 +26,7 @@ class MemberTest {
 
     @Test
     void 비밀번호가_일치하면_false를_반환한다() {
-        Member member = Member.create("듀이", Role.USER, "test@test.com", "1234");
+        Member member = Member.ofUser("듀이", "test@test.com", "1234");
         String password = "1234";
 
         assertThat(member.isIncorrectPassword(password)).isFalse();

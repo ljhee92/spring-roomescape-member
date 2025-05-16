@@ -18,8 +18,8 @@ public class Member {
         this.password = password;
     }
 
-    public static Member create(String name, Role role, String email, String password) {
-        return new Member(null, name, role, email, password);
+    public static Member ofUser(String name, String email, String password) {
+        return new Member(null, name, Role.USER, email, password);
     }
 
     public static Member create(Long id, String name, Role role, String email, String password) {

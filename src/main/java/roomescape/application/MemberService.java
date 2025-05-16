@@ -30,7 +30,7 @@ public class MemberService {
     }
 
     public MemberResponse createMember(MemberCreateRequest request) {
-        Member member = Member.create(request.name(), Role.USER, request.email(), request.password());
+        Member member = Member.ofUser(request.name(), request.email(), request.password());
         Member created = memberRepository.save(member);
         return MemberResponse.from(created);
     }
