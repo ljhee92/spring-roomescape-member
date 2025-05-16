@@ -2,6 +2,8 @@ package roomescape.presentation.api;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,18 +25,21 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+    public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest) {
         String accessToken = authService.login(loginRequest);
-        createCookie(response, accessToken);
-        return ResponseEntity.ok().build();
+        String cookie = createCookieFromToken(accessToken);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie)
+                .build();
     }
 
-    private void createCookie(HttpServletResponse response, String accessToken) {
-        Cookie cookie = new Cookie("token", accessToken);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(60);
-        response.addCookie(cookie);
+    private String createCookieFromToken(String accessToken) {
+        return ResponseCookie.from("token", accessToken)
+                .path("/")
+                .httpOnly(true)
+                .maxAge(60)
+                .build()
+                .toString();
     }
 
     @GetMapping("/login/check")
@@ -44,11 +49,18 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("token", null);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> logout() {
+        String emptyCookie = createEmptyCookie();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, emptyCookie)
+                .build();
+    }
+
+    private String createEmptyCookie() {
+        return ResponseCookie.from("token", null)
+                .path("/")
+                .maxAge(0)
+                .build()
+                .toString();
     }
 }
