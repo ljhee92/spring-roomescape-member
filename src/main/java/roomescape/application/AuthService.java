@@ -25,7 +25,7 @@ public class AuthService {
         if (member.isIncorrectPassword(loginRequest.password())) {
             throw new IllegalArgumentException("[ERROR] 올바르지 않은 비밀번호입니다.");
         }
-        LoginMember loginMember = new LoginMember(member.getId(), member.getName(), member.getRole(), member.getEmail());
+        LoginMember loginMember = new LoginMember(member.getId(), member.getName(), member.getRole());
         return jwtTokenProvider.createToken(loginMember);
     }
 
@@ -36,8 +36,7 @@ public class AuthService {
         Long id = jwtTokenProvider.getId(token);
         String name = jwtTokenProvider.getName(token);
         Role role = jwtTokenProvider.getRole(token);
-        String email = jwtTokenProvider.getEmail(token);
-        return new LoginMember(id, name, role, email);
+        return new LoginMember(id, name, role);
     }
 
     public Role findRoleByToken(String token) {

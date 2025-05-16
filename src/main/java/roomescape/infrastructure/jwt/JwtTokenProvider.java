@@ -36,7 +36,6 @@ public class JwtTokenProvider {
                 .setSubject(String.valueOf(loginMember.id()))
                 .claim("name", loginMember.name())
                 .claim("role", loginMember.role().name())
-                .claim("email", loginMember.email())
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
@@ -70,15 +69,6 @@ public class JwtTokenProvider {
                 .getBody()
                 .get("role", String.class);
         return Role.valueOf(role);
-    }
-
-    public String getEmail(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("email", String.class);
     }
 
     public boolean validateToken(String token) {

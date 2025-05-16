@@ -50,8 +50,7 @@ class MemberServiceTest extends BaseTest {
         assertAll(
                 () -> assertThat(responses).hasSize(1),
                 () -> assertThat(response.id()).isEqualTo(member.getId()),
-                () -> assertThat(response.name()).isEqualTo(member.getName()),
-                () -> assertThat(response.email()).isEqualTo(member.getEmail())
+                () -> assertThat(response.name()).isEqualTo(member.getName())
         );
     }
 
@@ -63,8 +62,7 @@ class MemberServiceTest extends BaseTest {
 
         assertAll(
                 () -> assertThat(response.id()).isEqualTo(1L),
-                () -> assertThat(response.name()).isEqualTo(request.name()),
-                () -> assertThat(response.email()).isEqualTo(request.email())
+                () -> assertThat(response.name()).isEqualTo(request.name())
         );
     }
 

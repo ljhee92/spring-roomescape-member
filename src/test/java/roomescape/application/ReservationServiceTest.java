@@ -79,7 +79,7 @@ class ReservationServiceTest extends BaseTest {
                 reservationTime.getId(),
                 theme.getId()
         );
-        LoginMember loginMember = new LoginMember(member.getId(), member.getName(), Role.USER, member.getEmail());
+        LoginMember loginMember = new LoginMember(member.getId(), member.getName(), Role.USER);
 
         ReservationResponse response = reservationService.createReservation(request, loginMember);
 
@@ -129,7 +129,7 @@ class ReservationServiceTest extends BaseTest {
                 reservationTime.getId(),
                 mystery.getId()
         );
-        LoginMember loginMember = new LoginMember(member.getId(), member.getName(), Role.USER, member.getEmail());
+        LoginMember loginMember = new LoginMember(member.getId(), member.getName(), Role.USER);
 
         assertThatCode(() -> reservationService.createReservation(request, loginMember))
                 .doesNotThrowAnyException();
@@ -147,7 +147,7 @@ class ReservationServiceTest extends BaseTest {
                 reservationTime.getId(),
                 theme.getId()
         );
-        LoginMember loginMember = new LoginMember(member.getId(), member.getName(), Role.USER, member.getEmail());
+        LoginMember loginMember = new LoginMember(member.getId(), member.getName(), Role.USER);
 
         assertThatThrownBy(() -> reservationService.createReservation(request, loginMember))
                 .isInstanceOf(IllegalArgumentException.class);

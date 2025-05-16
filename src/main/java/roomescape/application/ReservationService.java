@@ -51,7 +51,7 @@ public class ReservationService {
 
         validateExistsReservation(reservationDate, timeId, themeId);
 
-        Member member = memberService.findMemberByEmail(loginMember.email());
+        Member member = memberService.findMemberById(loginMember.id());
         ReservationDateTime reservationDateTime = getReservationDateTime(timeId, reservationDate);
         Theme theme = themeService.findThemeById(themeId);
         Reservation created = reservationRepository.save(member, reservationDateTime, theme);
